@@ -45,6 +45,8 @@ const Checkerboard = () => {
     const [grabY, setGrabY] = useState(0);
     const [activePiece, setActivePiece] = useState(null);
     const checkerboardRef = useRef(null);
+    const [turn, setTurn] = useState(true);
+
 
     useEffect(()=>{
         handleResize();
@@ -67,8 +69,8 @@ const Checkerboard = () => {
             const pickedPiece = pieces.find(p=> p.x === grabX && p.y === grabY);
             const validMove = rules.validMove(grabX, grabY, dropX, dropY, pickedPiece.type, pickedPiece.color, pieces)
             
-
-            if(validMove[0]){
+            
+            if(((turn && pickedPiece.color === "white") || (!turn && pickedPiece.color === "black")) && validMove[0]){
                 setPieces((val) => {
                     const pieces = val.reduce((res, piece) => {
                         if(piece.x === pickedPiece.x && piece.y === pickedPiece.y){
@@ -87,6 +89,10 @@ const Checkerboard = () => {
                         return res;
                     }, [])
                     return pieces;
+                });
+
+                setTurn(()=>{
+                    return !turn;
                 });
             }
             else{
@@ -180,15 +186,18 @@ const Checkerboard = () => {
         } 
     }
     return (
-        <div 
-            onMouseMove={e => movePiece(e)} 
-            onMouseDown={e => grabPiece(e)} 
-            onMouseUp={e=> dropPiece(e)} 
-            id="checkerboard" 
-            ref={checkerboardRef}
-        >
-            {board}
-        </div>
+        <>
+        <h1>{turn ? "Whites Turn" : "Blacks Turn"}</h1>
+            <div 
+                onMouseMove={e => movePiece(e)} 
+                onMouseDown={e => grabPiece(e)} 
+                onMouseUp={e=> dropPiece(e)} 
+                id="checkerboard" 
+                ref={checkerboardRef}
+            >
+                {board}
+            </div>
+        </>
     )
 }
 
