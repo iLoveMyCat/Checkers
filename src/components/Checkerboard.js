@@ -68,10 +68,14 @@ const Checkerboard = () => {
             setPieces((val) => {
                 let pieces = val.map(p=>{
                     if(p.x === grabX && p.y === grabY){
-                        if(true){
-                            p.x = dropX;
-                            p.y = dropY;
+                        if(rules.validMove(grabX, grabY, dropX, dropY, p.type, p.color, val)){
+                            console.log("valid move");
                         }
+                        else{
+                            console.log("invalid move");
+                        }
+                        p.x = dropX;
+                        p.y = dropY;
                     }
                     return p;
                 });
@@ -86,9 +90,7 @@ const Checkerboard = () => {
     
     function grabPiece(e){
         let checkerboard = checkerboardRef.current;
-        console.log("grabPiece func");
         if(e.target.classList.contains("chess-piece") && checkerboard){
-            console.log("grabbed:" + e.target.classList);
             e.target.classList.add("picked-up");
             setActivePiece(e.target);
             var grabX = Math.floor((e.clientX - checkerboard.getBoundingClientRect().left)/80);
@@ -96,7 +98,7 @@ const Checkerboard = () => {
             setGrabX(grabX);
             setGrabY(grabY);
         }
-        console.log("grab x,y: ",grabX,grabY);   
+        // console.log("grab x,y: ",grabX,grabY);   
     }
 
     function movePiece(e){
