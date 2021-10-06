@@ -74,6 +74,12 @@ const Checkerboard = () => {
                         if(piece.x === pickedPiece.x && piece.y === pickedPiece.y){
                             piece.x = dropX;
                             piece.y = dropY;
+                            if(piece.y === 0 && piece.color === "white"){
+                                piece = new Piece("assets/images/king-white-piece.png", dropX, dropY, "king", "white");
+                            }
+                            if(piece.y === 7 && piece.color === "black"){
+                                piece = new Piece("assets/images/king-black-piece.png", dropX, dropY, "king", "black");
+                            }
                             res.push(piece);
                         } else if(!(piece.x === validMove[1] && piece.y === validMove[2])){
                             res.push(piece);
