@@ -2,14 +2,17 @@ export default class Rules{
     validMove(prevX,prevY, newX, newY, type, color, gameState){
         // console.log("prev x,y:" + prevX + "," + prevY + " new x,y:" + newX + "," + newY);
         // console.log("type:" + type + " color:" + color);
+        //Movement rule
         if(Math.abs(prevX - newX) === 1 && Math.abs(prevY - newY) === 1){
             if(!occupied(gameState, newX, newY) && ((color === "black" && prevY < newY)||(color === "white" && prevY > newY))){
-                return true;
+                console.log("valid move");
+                return [true, -1, -1];
             }
         }
+        //Attack rule
         if(Math.abs(prevX - newX) === 2 && Math.abs(prevY - newY) === 2){
-            if(occupied(gameState, newX, newY) && ((color === "black" && prevY < newY)||(color === "white" && prevY > newY))){
-                return false;
+            if(occupied(gameState, newX, newY) || ((color === "black" && prevY > newY)||(color === "white" && prevY < newY))){
+                return [false, -1, -1];
             }
             let x;
             let y;
@@ -28,10 +31,12 @@ export default class Rules{
             if(occupiedByEnemy(gameState,x,y))
             {
                 console.log("checked enemy!");
-                return true;            
+                console.log("valid move");
+                return [true, x, y];            
             }
         }
-        return false;
+        console.log("invalid move");
+        return [false , -1, -1];
     }
 
 }

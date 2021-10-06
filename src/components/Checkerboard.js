@@ -64,28 +64,30 @@ const Checkerboard = () => {
         if(activePiece){
             const dropX = Math.floor((e.clientX - checkerboardLeft)/80);
             const dropY = Math.floor((e.clientY - checkerboardTop)/80);
+            const pickedPiece = pieces.find(p=> p.x === grabX && p.y === grabY);
+            const validMove = rules.validMove(grabX, grabY, dropX, dropY, pickedPiece.type, pickedPiece.color, pieces)
             
-            setPieces((val) => {
-                let pieces = val.map(p=>{
-                    if(p.x === grabX && p.y === grabY){
-                        if(rules.validMove(grabX, grabY, dropX, dropY, p.type, p.color, val)){
-                            console.log("valid move");
-                            p.x = dropX;
-                            p.y = dropY;
-                        }
-                        else{
-                            console.log("invalid move");
-                            activePiece.style.position = "relative";
-                            activePiece.style.top = "0px";
-                            activePiece.style.left = "0px";
-                            
-                        }
-                    }
-                    return p;
-                });
 
-                return pieces;
-            })
+            if(validMove[0]){
+                setPieces((val) => {
+                    const pieces = val.reduce((res, piece) => {
+                        if(piece.x === pickedPiece.x && piece.y === pickedPiece.y){
+                            piece.x = dropX;
+                            piece.y = dropY;
+                            res.push(piece);
+                        } else if(!(piece.x === validMove[1] && piece.y === validMove[2])){
+                            res.push(piece);
+                        }
+                        return res;
+                    }, [])
+                    return pieces;
+                });
+            }
+            else{
+                activePiece.style.position = "relative";
+                activePiece.style.top = "0px";
+                activePiece.style.left = "0px";
+            }
 
             e.target.classList.remove("picked-up");
             setActivePiece(null);
