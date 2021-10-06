@@ -70,12 +70,16 @@ const Checkerboard = () => {
                     if(p.x === grabX && p.y === grabY){
                         if(rules.validMove(grabX, grabY, dropX, dropY, p.type, p.color, val)){
                             console.log("valid move");
+                            p.x = dropX;
+                            p.y = dropY;
                         }
                         else{
                             console.log("invalid move");
+                            activePiece.style.position = "relative";
+                            activePiece.style.top = "0px";
+                            activePiece.style.left = "0px";
+                            
                         }
-                        p.x = dropX;
-                        p.y = dropY;
                     }
                     return p;
                 });
