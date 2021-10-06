@@ -12,13 +12,15 @@
     user-select: none;
     padding: 18px;
     height: 60px;
+    border-radius:50%;
+    box-shadow: 7px 14px 15px rgb(48, 52, 61);
+    padding: 0px;
 }
 .picked-up{
     height: 65px;
     width: 65px;
     border-radius:50%;
-    /* box-shadow: 0 0 0 3px #e78267; */
-    box-shadow: 7px 14px 15px rgb(48, 52, 61);
+    box-shadow: 7px 30px 15px rgb(48, 52, 61);
     padding: 0px;
 }
 .chess-piece:hover{
